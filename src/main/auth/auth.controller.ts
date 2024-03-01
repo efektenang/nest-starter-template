@@ -7,7 +7,7 @@ import {
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -22,7 +22,7 @@ export class AuthController {
         }),
       )
       .catch((err: any) =>
-        res.status(err.status).json({
+        res.status(400).json({
           message: err.message,
         }),
       );
