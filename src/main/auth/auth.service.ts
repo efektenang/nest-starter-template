@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { User } from '@/users/schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { encToken } from 'src/config/jwt-generator.config';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
 
     const payload = { sub: user[0]._id, email: user[0].email };
     const token = await this.jwtService.signAsync(payload);
-
-    return token;
+    
+    return encToken(token)
   }
 }
