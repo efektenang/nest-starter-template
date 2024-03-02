@@ -1,20 +1,28 @@
 import * as CryptoJS from 'crypto-js';
 
 export function encToken(token: any) {
-  const payloadString = JSON.stringify(token);
-  const encryptPayload = CryptoJS.AES.encrypt(
-    payloadString,
-    process.env.CRYPTO_KEY,
-  ).toString();
+  let store = '';
+  let splitToken = token.split('.');
 
-  return encryptPayload;
+  const encryptPayload = CryptoJS.AES.encrypt(
+    splitToken[1],
+    process.env.CRYPTO_KEY,
+  );
+
+  splitToken[1] = encryptPayload.toString();
+  store = splitToken.join('.');
+
+  return store;
 }
 
-export function decToken(token: string) {
-  const decryptedBytes = CryptoJS.AES.decrypt(token, process.env.CRYPTO_KEY);
+export function decToken(token: any) {
+  let store = '';
+  let splitToken = token.split('.')
 
-  const decryptedPayloadString = decryptedBytes.toString(CryptoJS.enc.Utf8);
-  const decryptedPayload = JSON.parse(decryptedPayloadString);
+  const decryptedBytes = CryptoJS.AES.decrypt(splitToken[1], process.env.CRYPTO_KEY);
 
-  return decryptedPayload;
+  splitToken[1] = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  store = splitToken.join('.');
+
+  return store;
 }
