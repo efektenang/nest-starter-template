@@ -30,7 +30,7 @@ export class UsersService {
 
   async findAll() {
     try {
-      const users = await this.userModel.find()
+      const users = await this.userModel.find().select('-password')
       if (users[0] === undefined) return null
       
       return users
