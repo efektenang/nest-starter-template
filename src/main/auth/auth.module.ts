@@ -5,16 +5,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@/users/schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from '@/config/jwt-register.config';
+import { SessionModule } from 'nestjs-session';
+import { sessionConfig } from '@/config/session.config';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: User.name,
-        schema: UserSchema
-      }
+        schema: UserSchema,
+      },
     ]),
     JwtModule.registerAsync(jwtConfig),
+    SessionModule.forRootAsync(sessionConfig),
   ],
   controllers: [AuthController],
   providers: [AuthService],

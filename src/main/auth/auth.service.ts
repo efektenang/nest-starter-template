@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { SignInDto } from './dto/sign-in.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -14,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(data: SignInDto): Promise<string> {
+  async signIn(data: SignInDto) {
     const user = await this.userModel.findOne({ email: data.email });
     if (!user)
       throw new UnauthorizedException('Email atau password salah');
@@ -28,6 +28,17 @@ export class AuthService {
     const payload = { sub: user._id, email: user.email };
     const token = await this.jwtService.signAsync(payload);
 
-    return encToken(token);
+    return {
+      token: encToken(token),
+      user: user
+    };
+  }
+
+  async profile(id: string) {
+    const user = await this.userModel.findById(id)
+
+    if (!user) throw new NotFoundException('User not found')
+    
+    return user
   }
 }
