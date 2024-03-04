@@ -1,9 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
-import * as bcrypt from 'bcrypt';
+import * as encryptions from '@/config/pass-generator.config'
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -15,11 +15,10 @@ export class UsersService {
       const isExists = await this.userModel.findOne({ email: data.email });
       if (isExists) throw new ConflictException('Email is already exists!');
 
-      const saltRounds = 10;
-      const salt = await bcrypt.genSalt(saltRounds)
+      const hashPassword = encryptions.encryptPassword(data.password)
       const createData = new this.userModel({
         ...data,
-        password: await bcrypt.hash(data.password, salt)
+        password: [hashPassword.hash, hashPassword.salt].join(" ")
       });
 
       return createData.save();
@@ -39,8 +38,15 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    try {
+      const user = await this.userModel.findOne({ username })
+      if (!user) throw new NotFoundException("User not found")
+
+      return user
+    } catch (err: any) {
+      throw new Error(err.message)
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
