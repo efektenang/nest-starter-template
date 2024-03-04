@@ -1,3 +1,4 @@
+import { IsEmailUserAlreadyExist } from '@/config/validators/is-email.validator';
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class CreateUserDto {
@@ -6,6 +7,9 @@ export class CreateUserDto {
   username: string;
 
   @IsEmail()
+  @IsEmailUserAlreadyExist({
+    message: 'Email is already exists',
+  })
   email: string;
 
   @IsString()

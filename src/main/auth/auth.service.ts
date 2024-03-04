@@ -16,7 +16,7 @@ export class AuthService {
 
   async signIn(data: SignInDto): Promise<string> {
     const user = await this.userModel.findOne({ email: data.email });
-    if (user === undefined)
+    if (!user)
       throw new UnauthorizedException('Email atau password salah');
 
     const [_hash, _salt] = user.password.split(' ');
