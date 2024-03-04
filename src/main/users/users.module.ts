@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from '@/config/jwt-register.config';
+import { IsEmailUserAlreadyExistConstraint } from '@/config/validators/is-email.validator';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { jwtConfig } from '@/config/jwt-register.config';
     JwtModule.registerAsync(jwtConfig),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, IsEmailUserAlreadyExistConstraint],
 })
 export class UsersModule {}
