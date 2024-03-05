@@ -11,12 +11,13 @@ export class AuthController {
   async signInUser(
     @Body() body: SignInDto,
     @Res() res,
-    @Session() session: { userId?: string },
+    @Session() session: { userId?: string, role?: string },
   ) {
     return this.authService
       .signIn(body)
       .then((result) => {
         session.userId = result.user.id;
+        session.role = result.user.role;
         res.json({
           message: 'OK',
           data: { token: result.token },

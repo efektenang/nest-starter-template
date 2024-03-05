@@ -21,4 +21,7 @@ export class CreateUserDto {
     },
   )
   password: string;
+
+  @IsString()
+  role: string;
 }
