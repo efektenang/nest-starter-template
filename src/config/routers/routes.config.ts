@@ -1,6 +1,7 @@
+import { AuthModule } from "@/auth/auth.module";
+import { UsersModule } from "@/users/users.module";
 import { DynamicModule, ForwardReference, Type } from "@nestjs/common";
 import { Routes } from "@nestjs/core";
-import { UsersModule } from "src/main/users/users.module";
 
 export default [
     {
@@ -9,6 +10,10 @@ export default [
         {
           path: 'users',
           module: UsersModule,
+        },
+        {
+          path: 'auth',
+          module: AuthModule,
         },
       ],
     },
