@@ -11,6 +11,7 @@ export const sessionConfig: NestSessionAsyncOptions = {
         saveUninitialized: true,
         cookie: {
           secure: 'auto',
+          maxAge: 60 * 60 * 1000
         },
       },
     };

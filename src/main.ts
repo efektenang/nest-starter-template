@@ -5,8 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService)
+  const app = await NestFactory.create(AppModule, { cors: true });
+  const configService = app.get(ConfigService);
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalPipes(
@@ -16,7 +16,7 @@ async function bootstrap() {
     }),
   );
 
-  const port = configService.get<number>('PORT')
+  const port = configService.get<number>('PORT');
   await app.listen(port);
 }
 bootstrap();

@@ -14,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(data: SignInDto) {
+  async signIn(data: SignInDto): Promise<{ token: string, user: any }> {
     const user = await this.userModel.findOne({ email: data.email });
     if (!user)
       throw new UnauthorizedException('Email atau password salah');
