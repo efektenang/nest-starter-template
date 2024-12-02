@@ -1,49 +1,74 @@
-import { Controller, Post, Body, Res, Session, Req, Get, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  Session,
+  Req,
+  Get,
+  Delete,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { Request } from 'express';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'src/utilities/helper-type.util';
 
+@ApiTags('Authentication')
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-in')
+  @ApiResponse({
+    status: 201,
+    description: 'OK',
+  })
+  @ApiResponse({ status: 400, description: 'Email atau password salah.' })
+  @ApiBody({
+    type: SignInDto,
+    description: 'Json structure for user object',
+  })
   async signInUser(
     @Body() body: SignInDto,
-    @Res() res,
-    @Session() session: { userId?: string, role?: string },
+    @Res() res: Response,
+    @Session() session: { userId?: string; role?: string },
   ) {
     return this.authService
       .signIn(body)
       .then((result) => {
         session.userId = result.user.id;
         session.role = result.user.role;
-        res.json({
-          message: 'OK',
-          data: { token: result.token },
-        });
+        res.asJson(HttpStatus.OK, { message: 'OK', data: result });
       })
       .catch((err: any) =>
-        res.status(400).json({
-          message: err.message,
-        }),
+        res.asJson(HttpStatus.BAD_REQUEST, { message: err.message }),
       );
   }
 
   @Get('profile')
-  async getProfile(@Res() res, @Session() session: { userId?: string }) {
+  @ApiBearerAuth()
+  async getProfile(
+    @Res() res: Response,
+    @Session() session: { userId?: string },
+  ) {
     return this.authService
       .profile(session.userId)
-      .then((result) => res.json({ message: 'OK', data: result }))
-      .catch((err) => res.json({ message: err.message }));
+      .then((result) =>
+        res.asJson(HttpStatus.OK, { message: 'OK', data: result }),
+      )
+      .catch((err) =>
+        res.asJson(HttpStatus.BAD_REQUEST, { message: err.message }),
+      );
   }
 
   @Delete('sign-out')
   async signOutUser(@Res() res, @Req() req: Request) {
     req.session.destroy((err) => {
-      if (err) return res.json({ message: "Logout failed!" })
-      
-      res.json({message: "Anda telah logout"})
-    })
+      if (err) return res.json({ message: 'Logout failed!' });
+
+      res.json({ message: 'Anda telah logout' });
+    });
   }
 }
