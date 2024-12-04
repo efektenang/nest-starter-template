@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction } from 'express';
 
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import {
   IPayloadResponse,
   Request,
@@ -46,7 +46,6 @@ export default class ResponseMiddleware implements NestMiddleware {
     };
 
     res.end = (...chunk) => {
-      const resAt = moment();
       if (!res.headersSent) {
         res.setHeader('Last-Modified', new Date().toUTCString());
       }
@@ -67,7 +66,7 @@ export default class ResponseMiddleware implements NestMiddleware {
         clientInformations: req.client_informations,
         statusCode: res.statusCode,
         reqAt: req.at,
-        resAt: resAt.unix(),
+        resAt: Date.now(),
         // data: dataBody,
       };
 
