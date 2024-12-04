@@ -1,10 +1,15 @@
 import { IsEmailUserAlreadyExist } from '@/config/validators/is-email.validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  Matches,
+} from 'class-validator';
 
 export enum UserRole {
   Admin = 'admin',
-  Moderator = 'moderator',
   User = 'user',
 }
 
@@ -41,7 +46,7 @@ export class CreateUserDto {
   )
   password: string;
 
-  @ApiProperty({ example: 'Admin|Moderator|User' })
-  @IsString()
+  @ApiProperty({ enum: UserRole, enumName: 'UserRole' })
+  @IsEnum(UserRole)
   role: string;
 }
