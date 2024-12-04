@@ -4,7 +4,6 @@ import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export enum UserRole {
   Admin = 'admin',
-  Moderator = 'moderator',
   User = 'user',
 }
 
@@ -41,7 +40,7 @@ export class UpdateUserDto {
   )
   password: string;
 
-  @ApiProperty({ example: 'Admin|Moderator|User' })
+  @ApiProperty({ example: 'admin|user' })
   @IsString()
   role: string;
 }

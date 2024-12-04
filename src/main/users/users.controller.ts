@@ -16,13 +16,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@/auth/guards/auth.guard';
 import { Role, Roles } from '@/auth/roles/roles.decorator';
 import { RolesGuard } from '@/auth/roles/roles.guard';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiHeader,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'src/utilities/helper-type.util';
 
 @ApiTags('Manage Users')

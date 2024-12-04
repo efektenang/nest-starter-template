@@ -33,7 +33,12 @@ export class AuthService {
 
     return {
       token: encToken(token),
-      user: user,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
