@@ -4,7 +4,7 @@ import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 export const mongoOptions: MongooseModuleAsyncOptions = {
   imports: [ConfigModule],
   useFactory: async (configSecret: ConfigService) => ({
-    uri: configSecret.get('DATABASE_URI'),
+    uri: configSecret.get('MONGO_URI'),
   }),
   inject: [ConfigService],
 };

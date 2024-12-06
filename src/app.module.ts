@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { mongoOptions } from './config/database/mongo-options.constants';
-import routesConfig, {
-  destructModuleFromRoutes,
-} from './config/routers/routes.config';
+import { destructModuleFromRoutes } from './config/routers/routes.config';
 import { RouterModule } from '@nestjs/core';
 import ResponseMiddleware from './middlewares/response.mware';
+import { SequelizeConnectModule } from './config/database/sequelize/database.module';
+import appRouter from './routers/app.router';
 
 @Module({
   imports: [
@@ -16,8 +16,9 @@ import ResponseMiddleware from './middlewares/response.mware';
       isGlobal: true,
     }),
     MongooseModule.forRootAsync(mongoOptions),
-    ...destructModuleFromRoutes(routesConfig),
-    RouterModule.register(routesConfig),
+    ...destructModuleFromRoutes(appRouter),
+    RouterModule.register(appRouter),
+    SequelizeConnectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
