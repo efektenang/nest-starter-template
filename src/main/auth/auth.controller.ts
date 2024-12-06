@@ -25,7 +25,7 @@ export class AuthController {
     status: 201,
     description: 'OK',
   })
-  @ApiResponse({ status: 400, description: 'Email atau password salah.' })
+  @ApiResponse({ status: 400, description: 'Error message.' })
   @ApiBody({
     type: SignInDto,
     description: 'Json structure for user object',
