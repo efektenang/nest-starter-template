@@ -13,11 +13,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test": "jest --detectOpenHandles --runInBand --forceExit --outputFile ./jest-result --json --passWithNoTests",
+    "test:watch": "jest --watch --detectOpenHandles --runInBand"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
@@ -89,9 +86,13 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
+    "globalSetup": "<rootDir>/../src/tests/_config/setup.ts",
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/../src/main/$1",
-      "^@/config/(.*)$": "<rootDir>/../src/config/$1"
+      "^@utilities/(.*)$": "<rootDir>/../src/utilities/$1",
+      "^src/config/(.*)$": "<rootDir>/../src/config/$1",
+      "^src/(.*)$": "<rootDir>/$1",
+      "^@app-module": "<rootDir>/../src/app.module.ts"
     }
   }
 }
