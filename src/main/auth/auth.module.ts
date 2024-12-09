@@ -4,9 +4,9 @@ import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@/users/schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConfig } from '@/config/jwt-register.config';
+import { jwtConfig } from 'src/config/jwt-register.config';
 import { SessionModule } from 'nestjs-session';
-import { sessionConfig } from '@/config/session.config';
+import { sessionConfig } from 'src/config/session.config';
 
 @Module({
   imports: [

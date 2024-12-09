@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBookDto {
@@ -6,6 +7,7 @@ export class CreateBookDto {
     example: 'book name',
     required: true,
   })
+  @Expose()
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -14,6 +16,7 @@ export class CreateBookDto {
     example: 'publihser name',
     required: true,
   })
+  @Expose()
   @IsString()
   @IsNotEmpty()
   publisher: string;

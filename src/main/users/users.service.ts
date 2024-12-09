@@ -7,7 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
-import * as encryptions from '@/config/pass-generator.config';
+import * as encryptions from 'src/config/pass-generator.config';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()

@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '@/users/schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
-import * as encryptions from '@/config/pass-generator.config';
+import * as encryptions from 'src/config/pass-generator.config';
 import { encToken } from 'src/config/jwt-generator.config';
 
 @Injectable()

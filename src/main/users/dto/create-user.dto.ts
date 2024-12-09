@@ -1,4 +1,4 @@
-import { IsEmailUserAlreadyExist } from '@/config/validators/is-email.validator';
+import { IsEmailUserAlreadyExist } from 'src/config/validators/is-email.validator';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
