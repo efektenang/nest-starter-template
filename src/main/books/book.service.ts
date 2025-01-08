@@ -1,17 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { BookSchema } from './schemas/book.schema';
 import { CreateBookDto } from './dtos/create-book.dto';
 import { plainToInstance } from 'class-transformer';
+import { SftpService } from 'src/config/sftp/sftp.service';
+import { MediaSchema } from 'src/config/sftp/schemas/media.schema';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectModel(BookSchema)
     private readonly books: typeof BookSchema,
+    @Inject('SFTP-SERVICES') private readonly sftpService: SftpService,
   ) {}
 
-  async createBook(data: CreateBookDto): Promise<BookSchema> {
+  async createBook(
+    data: CreateBookDto,
+    file: Express.Multer.File,
+  ): Promise<BookSchema> {
     try {
       const title = data.title;
 
@@ -22,6 +28,13 @@ export class BookService {
         updated_at: new Date(),
       });
 
+      await this.sftpService.uploadFile(
+        file,
+        'nest',
+        saveBook.id,
+        'BookSchema',
+      );
+
       return saveBook;
     } catch (err: any) {
       throw new Error(err.message);
@@ -30,7 +43,11 @@ export class BookService {
 
   async getBookList(): Promise<CreateBookDto[]> {
     try {
-      const books = await this.books.findAll();
+      const books = await this.books.findAll({
+        include: [MediaSchema],
+      });
+
+      return books;
 
       return plainToInstance(CreateBookDto, books, {
         strategy: 'excludeAll',

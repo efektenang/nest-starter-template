@@ -4,7 +4,9 @@ import {
   Model,
   DataType,
   AllowNull,
+  HasOne,
 } from 'sequelize-typescript';
+import { MediaSchema } from 'src/config/sftp/schemas/media.schema';
 
 @Table({
   schema: 'public',
@@ -28,4 +30,10 @@ export class BookSchema extends Model {
   @AllowNull(true)
   @Column(DataType.DATE)
   updated_at?: Date;
+
+  @HasOne(() => MediaSchema, {
+    foreignKey: 'model_id',
+    constraints: false,
+  })
+  coverImage: MediaSchema;
 }
