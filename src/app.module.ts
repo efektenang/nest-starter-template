@@ -9,9 +9,11 @@ import { RouterModule } from '@nestjs/core';
 import ResponseMiddleware from './middlewares/response.mware';
 import { SequelizeConnectModule } from './config/database/sequelize/database.module';
 import appRouter from './routers/app.router';
+import { SftpModule } from './config/sftp/sftp.module';
 
 @Module({
   imports: [
+    SftpModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
