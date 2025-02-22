@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   AllowNull,
+  AfterFind,
 } from 'sequelize-typescript';
 
 @Table({
@@ -40,6 +41,10 @@ export class MediaSchema extends Model {
   @AllowNull(false)
   @Column(DataType.STRING)
   file_name: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  disk?: string;
 
   @AllowNull(false)
   @Column(DataType.DATE)

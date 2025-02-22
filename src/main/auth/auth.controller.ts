@@ -10,7 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignInDto } from '../../common/dtos/auth/sign-in.dto';
 import { Request } from 'express';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'src/utilities/helper-type.util';

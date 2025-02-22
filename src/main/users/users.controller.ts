@@ -11,8 +11,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from '../../common/dtos/users/create-user.dto';
+import { UpdateUserDto } from '../../common/dtos/users/update-user.dto';
 import { AuthGuard } from '@/auth/guards/auth.guard';
 import { Role, Roles } from '@/auth/roles/roles.decorator';
 import { RolesGuard } from '@/auth/roles/roles.guard';

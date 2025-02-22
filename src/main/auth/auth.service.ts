@@ -3,10 +3,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignInDto } from '../../common/dtos/auth/sign-in.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from '@/users/schemas/user.schema';
+import { User } from 'src/common/models/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import * as encryptions from 'src/config/pass-generator.config';
 import { encToken } from 'src/config/jwt-generator.config';

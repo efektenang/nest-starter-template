@@ -11,10 +11,11 @@ import {
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
-import { CreateBookDto } from './dtos/create-book.dto';
+import { CreateBookDto } from '../../common/dtos/books/create-book.dto';
 import { Response } from 'src/utilities/helper-type.util';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerConfig } from 'src/config/multer.config';
+import { FileValidationPipe } from 'src/config/validators/is-mime-type.validator';
 
 @Controller()
 export class BookController {
@@ -33,7 +34,10 @@ export class BookController {
   async createBook(
     @Res() res: Response,
     @Body() body: CreateBookDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(
+      new FileValidationPipe(5 * 1024 * 1024, ['image/png', 'image/jpeg']),
+    )
+    file: Express.Multer.File,
   ) {
     return this.service
       .createBook(body, file)

@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { BookSchema } from './schemas/book.schema';
-import { CreateBookDto } from './dtos/create-book.dto';
+import { BookSchema } from '../../common/models/book.schema';
+import { CreateBookDto } from '../../common/dtos/books/create-book.dto';
 import { plainToInstance } from 'class-transformer';
 import { SftpService } from 'src/config/sftp/sftp.service';
 import { MediaSchema } from 'src/config/sftp/schemas/media.schema';

@@ -30,24 +30,28 @@ export class SftpService {
       });
 
       const remoteFolder = `${process.env.SFTP_ROOT}/${process.env.SFTP_FOLDER}/storage/${folderName}`;
-      const folderExists = await this.sftp.exists(remoteFolder);
 
+      // Checking remote folder has already exists in server.
+      const folderExists = await this.sftp.exists(remoteFolder);
       if (!folderExists) {
         await this.sftp.mkdir(remoteFolder, true);
       }
 
-      // Upload the file
       await this.sftp.put(file.path, remoteFilePath);
 
-      // Send data to database
+      // Save data to database
       const mediaSave = await this.media.create({
         model_type: modelName,
         model_id: dataId,
         size: file?.size,
         mimes_type: file?.mimetype,
-        asset_url: `storage/${folderName}/${file?.filename}`,
+        asset_url:
+          process.env.DISK === 'sftp'
+            ? `storage/${folderName}/${file?.filename}`
+            : file.path,
         original_file_name: file?.originalname,
         file_name: file?.filename,
+        disk: process.env.DISK ?? null,
         created_at: new Date(),
         updated_at: new Date(),
       });

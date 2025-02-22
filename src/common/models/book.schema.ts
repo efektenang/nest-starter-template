@@ -35,5 +35,5 @@ export class BookSchema extends Model {
     foreignKey: 'model_id',
     constraints: false,
   })
-  coverImage: MediaSchema;
+  media: MediaSchema;
 }
